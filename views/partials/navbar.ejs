@@ -24,10 +24,15 @@
                     <a class="nav-link" href="/posts/new">New Post</a>
                 </li>
             </ul>
-            
-        <div class="navbar-nav ms-auto">
-            <a class="nav-link" href="/login">Login</a>
-        </div>
+
+            <div class="navbar-nav ms-auto">
+                <% if (!currentUser) { %>
+                <a class="nav-link" href="/login">Login</a>
+                <!-- <a href="/register" class="nav-link">Register</a> -->
+                <% }  else { %>
+                <a href="/logout" class="nav-link">Logout</a>
+                <% } %>
+            </div>
         </div>
     </div>
     </div>
