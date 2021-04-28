@@ -1,0 +1,14 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="container col-md-8 offset-md-2">
+    <% for( let post of posts) { %>
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title"><%= post.title %></h5>
+            <h6 class="card-subtitle mb-2 text-muted"><%= post.category %></h6>
+            <p class="card-text"><%= post.plain %> </p>
+            <a href="/posts/<%= post._id %>" class="card-link">View post</a>
+        </div>
+    </div>
+    <% } %>
+</div>

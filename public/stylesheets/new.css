@@ -1,0 +1,12 @@
+.editor-toolbar.fullscreen {
+    top: 50px;
+    z-index:1025;
+  }
+  
+.editor-toolbar.fullscreen::before, .editor-toolbar.fullscreen::after {
+    top: 50px;
+}
+
+.CodeMirror-fullscreen, .editor-preview-side {
+    top:100px;
+}

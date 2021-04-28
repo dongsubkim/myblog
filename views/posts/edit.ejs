@@ -1,0 +1,25 @@
+<% layout('layouts/boilerplate') %>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+<link rel="stylesheet" href="/stylesheets/new.css">
+
+<h1>Edit Post</h1>
+<form action="/posts/<%= post._id %>?_method=PUT" method="POST">
+    <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" name="post[title]" class="form-control" id="title" value="<%= post.title %>" required>
+    </div>
+    <div class="mb-3">
+        <label for="category" class="form-label">Category</label>
+        <input type="text" name="post[category]" class="form-control" id="category" value="<%= post.category %>" required>
+    </div>
+    <div class="mb-3">
+        <label for="Content" class="form-label">Content</label>
+        <textarea class="form-control" name="post[content]" id="Content" rows="10" value="<%= post.content %>"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<script>
+    const content = <%- JSON.stringify(post.content) %>;
+    const simplemde = new SimpleMDE({ initialValue: content});
+</script>

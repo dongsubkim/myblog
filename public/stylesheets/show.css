@@ -1,0 +1,11 @@
+body {
+    background-color: white;
+}
+
+.card {
+    border: none;
+}
+#commentHeader {
+    border-bottom-color: blue;
+    background-color: white;
+}
