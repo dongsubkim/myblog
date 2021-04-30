@@ -26,19 +26,24 @@ module.exports.renderEditForm = async (req, res) => {
         req.flash('error', 'Cannot find the post');
         res.redirect('/posts');
     }
-    res.render('posts/edit', {post});
+    res.render('posts/edit', { post });
 }
 
 module.exports.createPost = async (req, res) => {
     const post = new Post(req.body.post);
+    if (req.files) {
+        post.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
+        // post.replaceUrls();
+    }
+    post.author = req.user._id;
     await post.save();
     req.flash('success', 'Successfully made a new post!');
     res.redirect(`/posts/${post._id}`);
 }
 
 module.exports.updatePost = async (req, res) => {
-    const {id} = req.params;
-    const post = await Post.findByIdAndUpdate(id, {...req.body.post});
+    const { id } = req.params;
+    const post = await Post.findByIdAndUpdate(id, { ...req.body.post });
     await post.save();
     req.flash('success', 'Successfully updated Post!')
     res.redirect(`/posts/${post._id}`)

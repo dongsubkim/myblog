@@ -5,19 +5,24 @@ const sanitizeHtml = require('sanitize-html');
 const striptags = require('striptags');
 const Comment = require('./comment');
 
+const ImageSchema = new Schema({
+    url: String,
+    filename: String
+});
+
+ImageSchema.virtual('thumbnail').get(function () {
+    return this.url.replace('/upload', '/upload/w_200')
+})
+
 const PostSchema = new Schema({
-    content: {
-        type: String,
-        required: true
+    content: String,
+    title: String,
+    category: String,
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     },
-    title: {
-        type: String,
-        required: true
-    },
-    category: {
-        type: String,
-        required: true
-    },
+    images: [ImageSchema],
     comments: [
         {
             type: Schema.Types.ObjectId,
@@ -42,6 +47,15 @@ PostSchema.post('findOneAndDelete', async function (doc) {
             }
         })
     }
+})
+
+PostSchema.pre('save', async function (next) {
+    if (this.images.length > 0) {
+        for (let i = 1; i <= this.images.length; i++) {
+            this.content = this.content.replace(`![image${i}](http://)`, `![image${i}](${this.images[i - 1].url})`)
+        }
+    }
+    next();
 })
 
 module.exports = mongoose.model("Post", PostSchema);

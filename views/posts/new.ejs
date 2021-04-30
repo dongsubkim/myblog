@@ -3,24 +3,38 @@
 <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 <link rel="stylesheet" href="/stylesheets/new.css">
 
-<h1>New Post</h1>
-<form action="/posts" method="POST">
-    <div class="mb-3">
-        <label for="title" class="form-label">Title</label>
-        <input type="text" name="post[title]" class="form-control" id="title" aria-describedby="title">
-    </div>
-    <div class="mb-3">
-        <label for="category" class="form-label">Category</label>
-        <input type="text" name="post[category]" class="form-control" id="category" aria-describedby="category">
-    </div>
-    <div class="mb-3">
-        <label for="Content" class="form-label">Content</label>
-        <textarea class="form-control" name="post[content]" id="Content" rows="10"></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+<div class="row">
+    <h1 class="text-center">New Post</h1>
+    <form action="/posts" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" name="post[title]" class="form-control" id="title" aria-describedby="title" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <input type="text" name="post[category]" class="form-control" id="category" aria-describedby="category"
+                required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Upload image(s)...</label>
+            <input class="form-control" type="file" id="image" name="image" multiple>
+        </div>
+        <div class="mb-3">
+            <label for="content" class="form-label">Content</label>
+            <textarea class="form-control" name="post[content]" id="content" rows="10" required></textarea>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+    </form>
+</div>
 <script>
     var simplemde = new SimpleMDE({}); // Returns HTML from a custom parser
 </script>
-    
-    

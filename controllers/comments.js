@@ -1,5 +1,4 @@
 const comment = require('../models/comment');
-const Comment = require('../models/comment');
 const Post = require('../models/post');
 
 module.exports.createComment = async (req, res) => {
@@ -13,8 +12,8 @@ module.exports.createComment = async (req, res) => {
 }
 
 module.exports.updateComment = async (req, res) => {
-    const {id, commentId} = req.params;
-    await comment.findByIdAndUpdate(commentId, {comment:req.body.comment.comment})
+    const { id, commentId } = req.params;
+    await comment.findByIdAndUpdate(commentId, { comment: req.body.comment.comment })
     req.flash('success', 'Comment updated!')
     res.redirect(`/posts/${id}`);
 }
