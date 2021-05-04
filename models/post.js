@@ -10,8 +10,12 @@ const ImageSchema = new Schema({
     filename: String
 });
 
-ImageSchema.virtual('thumbnail').get(function () {
-    return this.url.replace('/upload', '/upload/w_250')
+// ImageSchema.virtual('thumbnail').get(function () {
+//     return this.url.replace('/upload', '/upload/w_250')
+// })
+
+ImageSchema.virtual('square').get(function () {
+    return this.url.replace('/upload', '/upload/w_300,ar_1:1,c_fill,g_auto,e_art:hokusai')
 })
 
 const PostSchema = new Schema({
@@ -36,7 +40,11 @@ PostSchema.virtual('html').get(function () {
 })
 
 PostSchema.virtual('plain').get(function () {
-    return striptags(marked(this.content));
+    let stripped = striptags(marked(this.content));
+    if (this.content.length > 200) {
+        stripped = stripped.slice(0, 200).concat("...")
+    }
+    return stripped
 })
 
 PostSchema.post('findOneAndDelete', async function (doc) {
