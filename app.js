@@ -133,7 +133,8 @@ app.use('/posts', postRoutes);
 app.use('/posts/:id/comments', commentRoutes);
 
 app.get('/', (req, res) => {
-    res.render('home')
+    res.redirect('/posts');
+    // res.render('home')
 });
 
 app.all('*', (req, res, next) => {
