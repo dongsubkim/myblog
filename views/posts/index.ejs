@@ -11,7 +11,9 @@
                 <a href="/posts/<%= post._id %>" class="card-link">View post</a>
             </div>
             <div class="d-none d-md-block col-md-3 align-self-center mb-3 ps-3">
+                <% if (post.images.length > 0) { %>
                 <img src="<%= post.images[0].square %>" class="img-fluid" alt="">
+                <% } %>
             </div>
         </div>
     </div>

@@ -4,6 +4,14 @@ const marked = require('marked');
 const sanitizeHtml = require('sanitize-html');
 const striptags = require('striptags');
 const Comment = require('./comment');
+const hljs = require('highlight.js');
+
+marked.setOptions({
+    highlight: function (code, lang, callback) {
+        const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+        return hljs.highlight(code, { language }).value;
+    }
+});
 
 const ImageSchema = new Schema({
     url: String,

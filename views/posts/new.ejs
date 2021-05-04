@@ -22,8 +22,10 @@
             </div>
         </div>
         <div class="mb-3">
-            <label for="image" class="form-label">Upload image(s)...</label>
-            <input class="form-control" type="file" id="image" name="image" multiple>
+            <label for="image" class="form-label">Upload image(s)...<input id="my-file-selector" type="file"
+                    style="display:none;" onchange="$('#upload-file-info').val($(this).val());"></label>
+            <input class="form-control" type="file" id="image" name="image" multiple data-show-upload="true"
+                data-show-caption="true">
         </div>
         <div class="mb-3">
             <label for="content" class="form-label">Content</label>

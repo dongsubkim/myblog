@@ -1,5 +1,4 @@
 const Post = require('../models/post');
-const marked = require('marked');
 
 module.exports.index = async (req, res) => {
     const { category } = req.query;
@@ -33,7 +32,6 @@ module.exports.createPost = async (req, res) => {
     const post = new Post(req.body.post);
     if (req.files) {
         post.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
-        // post.replaceUrls();
     }
     post.author = req.user._id;
     await post.save();
