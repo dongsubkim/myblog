@@ -10,7 +10,8 @@ marked.setOptions({
     highlight: function (code, lang, callback) {
         const language = hljs.getLanguage(lang) ? lang : 'plaintext';
         return hljs.highlight(code, { language }).value;
-    }
+    },
+    breaks: true
 });
 
 const ImageSchema = new Schema({
