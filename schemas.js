@@ -27,7 +27,7 @@ module.exports.postSchema = Joi.object({
     post: Joi.object({
         title: Joi.string().required().escapeHTML(),
         category: Joi.string().required().escapeHTML(),
-        content: Joi.string().required().escapeHTML()
+        content: Joi.string().required()
     }).required()
 });
 

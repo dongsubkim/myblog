@@ -12,7 +12,7 @@ router.route('/')
     .post(
         isLoggedIn,
         upload.array('image'),
-        // validatePost,
+        validatePost,
         catchAsync(posts.createPost));
 
 router.get('/new', isLoggedIn, posts.renderNewForm);

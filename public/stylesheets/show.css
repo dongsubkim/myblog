@@ -16,15 +16,11 @@ img {
     height: auto; 
 }
 
-/* table, td, th {
-    border: 1px solid #dfe2e5;
-}
-
 pre {
     padding: 16px;
-    overflow: auto;
+    /* overflow: auto;
     font-size: 100%;
-    line-height: 1.45;
+    line-height: 1.45; */
     background-color: #f6f8fa;
     border-radius: 6px;
-}  */
+} 

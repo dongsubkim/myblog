@@ -31,7 +31,7 @@ module.exports.renderEditForm = async (req, res) => {
 module.exports.createPost = async (req, res) => {
     const post = new Post(req.body.post);
     if (req.files) {
-        post.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
+        post.images = req.files.map(f => ({ url: f.path, filename: f.filename, originalname: f.originalname }));
     }
     post.author = req.user._id;
     await post.save();

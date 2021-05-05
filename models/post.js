@@ -15,7 +15,8 @@ marked.setOptions({
 
 const ImageSchema = new Schema({
     url: String,
-    filename: String
+    filename: String,
+    originalname: String,
 });
 
 // ImageSchema.virtual('thumbnail').get(function () {
@@ -44,6 +45,8 @@ const PostSchema = new Schema({
 })
 
 PostSchema.virtual('html').get(function () {
+    // let htmlContent = marked(this.content)
+    // htmlContent = htmlContent.replace("")
     return marked(this.content);
 })
 
@@ -68,7 +71,8 @@ PostSchema.post('findOneAndDelete', async function (doc) {
 PostSchema.pre('save', async function (next) {
     if (this.images.length > 0) {
         for (let i = 1; i <= this.images.length; i++) {
-            this.content = this.content.replace(`![image${i}](http://)`, `![image${i}](${this.images[i - 1].url})`)
+            imageName = this.images[i - 1].originalname
+            this.content = this.content.replaceAll(`![${imageName}](http://)`, `![${imageName}](${this.images[i - 1].url})`)
         }
     }
     next();

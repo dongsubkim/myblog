@@ -2,6 +2,8 @@
 <link rel="stylesheet" href="/stylesheets/show.css">
 <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.7.2/build/styles/github-gist.min.css">
 <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.7.2/build/highlight.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css"
+    integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
 
 <div class="row justify-content-center">
     <!-- Post Section -->
@@ -166,5 +168,13 @@
     function toggler(divId) {
         const element = document.getElementById(divId);
         element.classList.toggle("d-none");
+    }
+</script>
+<script>
+    const tbs = document.querySelectorAll("table");
+    console.log(tbs)
+    for (const tb of tbs) {
+        console.log(tb)
+        tb.classList.add("pure-table", "pure-table-bordered", "mb-3");
     }
 </script>

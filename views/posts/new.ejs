@@ -25,8 +25,9 @@
             <label for="image" class="form-label">Upload image(s)...<input id="my-file-selector" type="file"
                     style="display:none;" onchange="$('#upload-file-info').val($(this).val());"></label>
             <input class="form-control" type="file" id="image" name="image" multiple data-show-upload="true"
-                data-show-caption="true">
+                data-show-caption="true" onchange="displayPreview(this)">
         </div>
+        <div class="mb-3 d-flex d-none" id="image-preview"></div>
         <div class="mb-3">
             <label for="content" class="form-label">Content</label>
             <textarea class="form-control" name="post[content]" id="content" rows="10" required></textarea>
@@ -40,3 +41,4 @@
 <script>
     var simplemde = new SimpleMDE({}); // Returns HTML from a custom parser
 </script>
+<script src="/javascripts/addPreview.js"></script>
