@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const marked = require('marked');
-const sanitizeHtml = require('sanitize-html');
+// const sanitizeHtml = require('sanitize-html');
 const striptags = require('striptags');
 const Comment = require('./comment');
 const hljs = require('highlight.js');
@@ -46,15 +46,13 @@ const PostSchema = new Schema({
 })
 
 PostSchema.virtual('html').get(function () {
-    // let htmlContent = marked(this.content)
-    // htmlContent = htmlContent.replace("")
     return marked(this.content);
 })
 
 PostSchema.virtual('plain').get(function () {
     let stripped = striptags(marked(this.content));
-    if (this.content.length > 200) {
-        stripped = stripped.slice(0, 200).concat("...")
+    if (stripped.length > 200) {
+        return stripped.slice(0, 200).concat("...")
     }
     return stripped
 })

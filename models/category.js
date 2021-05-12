@@ -6,28 +6,18 @@ const CategorySchema = new Schema({
         type: String,
         required: true
     },
-    subcategories: [
+    children: [
         {
             type: Schema.Types.ObjectId,
             ref: 'Category'
         }
     ],
-    // posts : [
-    //     {
-    //         type: Schema.Types.ObjectId,
-    //         ref: 'Post'
-    //     }
-    // ]
+    parent: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Category'
+        }
+    ]
 })
-
-// PostSchema.post('findOneAndDelete', async function (doc) {
-//     if (doc) {
-//         await Comment.deleteMany({
-//             _id: {
-//                 $in: doc.comments
-//             }
-//         })
-//     }
-// })
 
 module.exports = mongoose.model("Category", CategorySchema);

@@ -15,6 +15,7 @@ const helmet = require('helmet');
 const postRoutes = require('./routes/posts');
 const userRoutes = require('./routes/users');
 const commentRoutes = require('./routes/comments');
+const categoryRoutes = require('./routes/categories');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
@@ -111,6 +112,7 @@ app.use(
                 "data:",
                 "https://res.cloudinary.com/ddeivviyp/",
                 "https://images.unsplash.com/",
+                "https://user-images.githubusercontent.com",
             ],
             fontSrc: ["'self'", ...fontSrcUrls],
         },
@@ -134,6 +136,7 @@ app.use((req, res, next) => {
 app.use('/', userRoutes);
 app.use('/posts', postRoutes);
 app.use('/posts/:id/comments', commentRoutes);
+app.use('/category', categoryRoutes);
 
 app.get('/', (req, res) => {
     res.redirect('/posts');

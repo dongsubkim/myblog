@@ -34,28 +34,29 @@ module.exports.isAuthor = async (req, res, next) => {
 }
 
 module.exports.validateComment = (req, res, next) => {
+    const { id } = req.params;
     const { error } = commentSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
-        throw new ExpressError(msg, 400)
+        req.flash('error', msg)
+        res.redirect(`/posts/${id}`);
+        // throw new ExpressError(msg, 400)
     } else {
         next();
     }
-    next();
 }
 
 module.exports.isCommentAuthor = async (req, res, next) => {
-    const { commentId } = req.params;
+    const { id, commentId } = req.params;
     const comment = await Comment.findById(commentId);
     const candidatePassword = req.body.comment.password;
     comment.comparePassword(candidatePassword, function (err, isMatch) {
         if (err) throw new ExpressError(err, 400)
         if (isMatch) {
             next();
-        }
-        else {
-            req.flash('error', 'Password Not Matched!');
-            return res.redirect('back');
+        } else {
+            req.flash('error', 'Comment password not matched!');
+            return res.redirect(`/posts/${id}`);
         }
     });
 }
