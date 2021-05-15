@@ -1,6 +1,6 @@
 const { postSchema, commentSchema } = require('./schemas.js');
 const ExpressError = require('./utils/expressError');
-const Post = require('./models/post');
+const { Post } = require('./models/post');
 const Comment = require('./models/comment');
 
 module.exports.isLoggedIn = (req, res, next) => {
@@ -60,4 +60,3 @@ module.exports.isCommentAuthor = async (req, res, next) => {
         }
     });
 }
-

@@ -1,6 +1,6 @@
 function displayPreview(input) {
-    const template = `<div class="card g-0" style="width: 200px;" id="preview-card">
-            <img src="imagesrc" class="card-img-top" style="height: 200px;" alt="...">
+    const template = `<div class="card g-0" style="width: 150px;" id="preview-card">
+            <img src="imagesrc" class="card-img-top" style="height: 150px;" alt="...">
             <div class="card-body">
                 <p class="card-text">Image Title</p>
             </div>

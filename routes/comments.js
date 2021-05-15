@@ -18,4 +18,3 @@ router.route('/:commentId')
     );
 
 module.exports = router;
-

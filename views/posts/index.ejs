@@ -1,21 +1,26 @@
 <% layout('layouts/boilerplate') %>
-<div class="container">
-    <% for( let post of posts) { %>
-    <div class="card mb-3 border-0">
-        <div class="row">
-            <div class="card-body col-md-9">
-                <h5 class="card-title"><%= post.title %></h5>
-                <h6 class="card-subtitle mb-2 text-muted"><%= post.category %></h6>
-                <p class="card-text"><%= post.plain %></p>
-                <a href="/posts/<%= post._id %>" class="card-link">View post</a>
+<div class="row">
+    <%- include('../partials/sidebar', Category) %>
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-5">
+        <div class="container">
+            <% for( let post of posts) { %>
+            <div class="card mb-3 border-0">
+                <div class="row">
+                    <div class="card-body col-md-9 d-flex flex-column">
+                        <h5 class="card-title"><%= post.title %></h5>
+                        <h6 class="card-subtitle mb-2 text-muted"><%= post.category %></h6>
+                        <p class="card-text"><%= post.plain %></p>
+                        <a href="/posts/<%= post._id %>" class="card-link mt-auto">View post</a>
+                    </div>
+                    <div class="d-none d-md-block col-md-3 align-self-center mb-3 ps-3">
+                        <% if (post.images.length > 0) { %>
+                        <img src="<%= post.images[0].square %>" class="img-fluid" alt="">
+                        <% } %>
+                    </div>
+                </div>
             </div>
-            <div class="d-none d-md-block col-md-3 align-self-center mb-3 ps-3">
-                <% if (post.images.length > 0) { %>
-                <img src="<%= post.images[0].square %>" class="img-fluid" alt="">
-                <% } %>
-            </div>
+            <hr>
+            <% } %>
         </div>
-    </div>
-    <hr>
-    <% } %>
+    </main>
 </div>

@@ -1,18 +1,29 @@
-const Post = require('../models/post');
+const { Post, Category } = require('../models/post');
 
 module.exports.index = async (req, res) => {
-    const { category } = req.query;
-    const posts = await Post.find({});
-    res.render('posts/index', { posts });
+    const { category: queryCategory } = req.query;
+    let filter = {};
+    if (queryCategory) {
+        filter = { category: queryCategory }
+    }
+    const posts = await Post.find(filter);
+    req.session.queryCategory = queryCategory;
+    res.render('posts/index', { posts, Category });
+
 }
 
 module.exports.showPost = async (req, res) => {
+    const { queryCategory } = req.session;
+    let originalUrl = '/posts'
+    if (queryCategory) {
+        originalUrl = `${originalUrl}?category=${queryCategory}`
+    }
     const post = await Post.findById(req.params.id).populate('comments');
     if (!post) {
         req.flash('error', 'Cannot find the post');
         res.redirect('/posts');
     }
-    res.render('posts/show', { post })
+    res.render('posts/show', { post, originalUrl })
 }
 
 module.exports.renderNewForm = (req, res) => {

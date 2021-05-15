@@ -5,6 +5,7 @@ const marked = require('marked');
 const striptags = require('striptags');
 const Comment = require('./comment');
 const hljs = require('highlight.js');
+const Category = {};
 
 marked.setOptions({
     highlight: function (code, lang, callback) {
@@ -25,13 +26,17 @@ const ImageSchema = new Schema({
 // })
 
 ImageSchema.virtual('square').get(function () {
-    return this.url.replace('/upload', '/upload/w_300,ar_1:1,c_fill,g_auto,e_art:hokusai')
+    return this.url.replace('/upload', '/upload/w_200,ar_1:1,c_fill,g_auto,e_art:hokusai')
 })
 
 const PostSchema = new Schema({
     content: String,
     title: String,
-    category: String,
+    category: [
+        {
+            type: String
+        }
+    ],
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User'
@@ -69,12 +74,45 @@ PostSchema.post('findOneAndDelete', async function (doc) {
 
 PostSchema.pre('save', async function (next) {
     if (this.images.length > 0) {
-        for (let i = 1; i <= this.images.length; i++) {
-            imageName = this.images[i - 1].originalname
-            this.content = this.content.replaceAll(`![${imageName}](http://)`, `![${imageName}](${this.images[i - 1].url})`)
+        for (let i = 0; i < this.images.length; i++) {
+            imageName = this.images[i].originalname
+            this.content = this.content.replace(`![${imageName}](http://)`, `![${imageName}](${this.images[i].url})`)
         }
     }
+    // unpack category
+    let reg = /\s*(?:,|$)\s*/
+    this.category = this.category[0].split(reg)
     next();
 })
 
-module.exports = mongoose.model("Post", PostSchema);
+PostSchema.post('save', async function (doc) {
+    if (doc) {
+        const categories = doc.category;
+        categories.forEach(function (value, index, arr) {
+            if (value in Category) {
+                Category[value] += 1
+            } else {
+                Category[value] = 1
+            }
+        })
+    }
+})
+
+const PostModel = mongoose.model("Post", PostSchema);
+PostModel.find({}, 'category', function (err, docs) {
+    if (docs) {
+        for (let category in docs) {
+            const cs = docs[category].category
+            for (let key in cs) {
+                let value = cs[key];
+                if (value in Category) {
+                    Category[value] += 1
+                } else {
+                    Category[value] = 1
+                }
+            }
+        }
+    }
+});
+module.exports.Post = PostModel;
+module.exports.Category = Category;
