@@ -1,4 +1,5 @@
 const { Post, Category } = require('../models/post');
+const reg = /\s*(?:,|$)\s*/;
 
 module.exports.index = async (req, res) => {
     const { category: queryCategory } = req.query;
@@ -8,7 +9,7 @@ module.exports.index = async (req, res) => {
     }
     const posts = await Post.find(filter);
     req.session.queryCategory = queryCategory;
-    res.render('posts/index', { posts, Category });
+    res.render('posts/index', { posts: posts, Category });
 
 }
 
@@ -23,11 +24,12 @@ module.exports.showPost = async (req, res) => {
         req.flash('error', 'Cannot find the post');
         res.redirect('/posts');
     }
-    res.render('posts/show', { post, originalUrl })
+    res.render('posts/show', { post, originalUrl, Category })
 }
 
 module.exports.renderNewForm = (req, res) => {
-    res.render('posts/new')
+    const post = { Category: [] }
+    res.render('posts/new', { post })
 }
 
 module.exports.renderEditForm = async (req, res) => {
@@ -40,6 +42,7 @@ module.exports.renderEditForm = async (req, res) => {
 }
 
 module.exports.createPost = async (req, res) => {
+    req.body.post.category = req.body.post.category.split(reg)
     const post = new Post(req.body.post);
     if (req.files) {
         post.images = req.files.map(f => ({ url: f.path, filename: f.filename, originalname: f.originalname }));
@@ -52,6 +55,7 @@ module.exports.createPost = async (req, res) => {
 
 module.exports.updatePost = async (req, res) => {
     const { id } = req.params;
+    req.body.post.category = req.body.post.category.split(reg)
     const post = await Post.findByIdAndUpdate(id, { ...req.body.post });
     await post.save();
     req.flash('success', 'Successfully updated Post!')

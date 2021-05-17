@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
 <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 <link rel="stylesheet" href="/stylesheets/new.css">
-<main class="container mt-5">
+<main class="container mt-5 mb-3">
     <div class="row">
         <h1 class="text-center">New Post</h1>
         <form action="/posts" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
@@ -35,10 +35,8 @@
                     Looks good!
                 </div>
             </div>
-            <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-            </div>
-
+            <a href="/posts" class="btn btn-secondary">Back</a>
+            <button type="submit" class="btn btn-primary ">Submit</button>
         </form>
     </div>
 

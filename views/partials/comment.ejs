@@ -22,7 +22,7 @@
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                         <li>
-                            <a href="#" class="dropdown-item" onclick="toggler('editForm<%= comment._id %>')">Edit</a>
+                            <a href="#!" class="dropdown-item" onclick="toggler('editForm<%= comment._id %>')">Edit</a>
                         </li>
                         <li>
                             <button type="button" class="dropdown-item" data-bs-toggle="modal"
@@ -42,7 +42,7 @@
                         <div>
                             <label for="name<%= comment._id %>" class="col-form-label visually-hidden"></label>
                             <input type="text" name="comment[name]" id="name<%= comment._id %>" class="form-control"
-                                placeholder="Name" aria-label="Name" value="<%= comment.name %>" required disabled>
+                                placeholder="Name" aria-label="Name" value="<%= comment.name %>" required>
                             <div class="valid-feedback">
                             </div>
                         </div>
@@ -105,3 +105,9 @@
 <div class="col-lg-8 mb-3">
     <%- include('./newComment') %>
 </div>
+<script>
+    function toggler(divId) {
+        const element = document.getElementById(divId);
+        element.classList.toggle("d-none");
+    }
+</script>

@@ -11,15 +11,19 @@
     </div>
     <div class="mb-3">
         <label for="category" class="form-label">Category</label>
-        <input type="text" name="post[category]" class="form-control" id="category" value="<%= post.category %>" required>
+        <input type="text" name="post[category]" class="form-control" id="category" value="<%= post.category %>"
+            required>
     </div>
     <div class="mb-3">
         <label for="Content" class="form-label">Content</label>
-        <textarea class="form-control" name="post[content]" id="Content" rows="10" value="<%= post.content %>"></textarea>
+        <textarea class="form-control" name="post[content]" id="Content" rows="10"
+            value="<%= post.content %>"></textarea>
     </div>
+    <a class="btn btn-secondary" href="/posts/<%= post._id %>">Back</a>
     <button type="submit" class="btn btn-primary">Submit</button>
+
 </form>
 <script>
     const content = <%- JSON.stringify(post.content) %>;
-    const simplemde = new SimpleMDE({ initialValue: content});
+    const simplemde = new SimpleMDE({ initialValue: content });
 </script>

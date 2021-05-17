@@ -70,6 +70,7 @@ PostSchema.post('findOneAndDelete', async function (doc) {
             }
         })
     }
+    updateCategory();
 })
 
 PostSchema.pre('save', async function (next) {
@@ -80,39 +81,39 @@ PostSchema.pre('save', async function (next) {
         }
     }
     // unpack category
-    let reg = /\s*(?:,|$)\s*/
-    this.category = this.category[0].split(reg)
+    // let reg = /\s*(?:,|$)\s*/
+    // this.category = this.category[0].split(reg)
     next();
 })
 
 PostSchema.post('save', async function (doc) {
-    if (doc) {
-        const categories = doc.category;
-        categories.forEach(function (value, index, arr) {
-            if (value in Category) {
-                Category[value] += 1
-            } else {
-                Category[value] = 1
-            }
-        })
-    }
+    updateCategory();
 })
 
 const PostModel = mongoose.model("Post", PostSchema);
-PostModel.find({}, 'category', function (err, docs) {
-    if (docs) {
-        for (let category in docs) {
-            const cs = docs[category].category
-            for (let key in cs) {
-                let value = cs[key];
-                if (value in Category) {
-                    Category[value] += 1
-                } else {
-                    Category[value] = 1
+
+function updateCategory() {
+    for (var variableKey in Category) {
+        if (Category.hasOwnProperty(variableKey)) {
+            delete Category[variableKey];
+        }
+    }
+    PostModel.find({}, 'category', function (err, docs) {
+        if (docs) {
+            for (let category in docs) {
+                const cs = docs[category].category
+                for (let key in cs) {
+                    let value = cs[key];
+                    if (value in Category) {
+                        Category[value] += 1
+                    } else {
+                        Category[value] = 1
+                    }
                 }
             }
         }
-    }
-});
+    });
+}
+updateCategory();
 module.exports.Post = PostModel;
 module.exports.Category = Category;
