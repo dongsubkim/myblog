@@ -28,7 +28,8 @@ module.exports.postSchema = Joi.object({
         title: Joi.string().required().escapeHTML(),
         category: Joi.string().required().escapeHTML(),
         content: Joi.string().required()
-    }).required()
+    }).required(),
+    deleteImages: Joi.array()
 });
 
 module.exports.commentSchema = Joi.object({

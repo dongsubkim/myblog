@@ -1,4 +1,5 @@
 const { Post, Category } = require('../models/post');
+const { cloudinary } = require('../cloudinary');
 const reg = /\s*(?:,|$)\s*/;
 
 module.exports.index = async (req, res) => {
@@ -56,8 +57,18 @@ module.exports.createPost = async (req, res) => {
 module.exports.updatePost = async (req, res) => {
     const { id } = req.params;
     req.body.post.category = req.body.post.category.split(reg)
-    const post = await Post.findByIdAndUpdate(id, { ...req.body.post });
+    const post = await Post.findByIdAndUpdate(id, { ...req.body.post }, { new: true });
+    if (req.files) {
+        const imgs = req.files.map(f => ({ url: f.path, filename: f.filename, originalname: f.originalname }));
+        post.images.push(...imgs);    
+    }
     await post.save();
+    if (req.body.deleteImages) {
+        for (let filename of req.body.deleteImages) {
+            await cloudinary.uploader.destroy(filename);
+        }
+        await post.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } });
+    }
     req.flash('success', 'Successfully updated Post!')
     res.redirect(`/posts/${post._id}`)
 }

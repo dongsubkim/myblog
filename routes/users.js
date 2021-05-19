@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
-// const User = require('../models/user');
 const passport = require('passport');
 const users = require('../controllers/users');
 
-router.route('/register')
+if (process.env.USER_COUNT == '0') {
+    router.route('/register')
     .get(users.renderRegister)
     .post(catchAsync(users.register));
+}
 
 router.route('/login')
     .get(users.renderLogin)

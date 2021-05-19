@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const marked = require('marked');
-// const sanitizeHtml = require('sanitize-html');
 const striptags = require('striptags');
 const Comment = require('./comment');
 const hljs = require('highlight.js');
+const { cloudinary } = require('../cloudinary');
 const Category = {};
 
 marked.setOptions({
@@ -26,7 +26,7 @@ const ImageSchema = new Schema({
 // })
 
 ImageSchema.virtual('square').get(function () {
-    return this.url.replace('/upload', '/upload/w_200,ar_1:1,c_fill,g_auto,e_art:hokusai')
+    return this.url.replace('/upload', '/upload/w_180,ar_1:1,c_fill,g_auto,e_art:hokusai')
 })
 
 const PostSchema = new Schema({
@@ -69,6 +69,9 @@ PostSchema.post('findOneAndDelete', async function (doc) {
                 $in: doc.comments
             }
         })
+        for (let image of doc.images) {
+            await cloudinary.uploader.destroy(image.filename);
+        }
     }
     updateCategory();
 })
@@ -76,13 +79,12 @@ PostSchema.post('findOneAndDelete', async function (doc) {
 PostSchema.pre('save', async function (next) {
     if (this.images.length > 0) {
         for (let i = 0; i < this.images.length; i++) {
-            imageName = this.images[i].originalname
-            this.content = this.content.replace(`![${imageName}](http://)`, `![${imageName}](${this.images[i].url})`)
+            let imageName = this.images[i].originalname;
+            let res = `!\\[${imageName}\\]\\(http:\\/\\/\\)`.replace(/\./g, '\\.')
+            let re = new RegExp(res, 'g')
+            this.content = this.content.replace(re, `![${imageName}](${this.images[i].url})`);
         }
     }
-    // unpack category
-    // let reg = /\s*(?:,|$)\s*/
-    // this.category = this.category[0].split(reg)
     next();
 })
 
