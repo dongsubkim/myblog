@@ -20,6 +20,7 @@ const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 const mongoSanitize = require('express-mongo-sanitize');
 const MongoStore = require('connect-mongo');
+const favicon = require('serve-favicon');
 
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/myblog';
 // const dbUrl = 'mongodb://localhost:27017/myblog';
@@ -41,6 +42,7 @@ app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
