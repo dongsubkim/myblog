@@ -48,6 +48,8 @@ const PostSchema = new Schema({
             ref: 'Comment'
         }
     ]
+}, {
+    timestamps : true
 })
 
 PostSchema.virtual('html').get(function () {
@@ -60,6 +62,18 @@ PostSchema.virtual('plain').get(function () {
         return stripped.slice(0, 200).concat("...")
     }
     return stripped
+})
+
+PostSchema.virtual('lastModified').get(function() {
+    let o = new Intl.DateTimeFormat("en" , {
+        timeStyle: "medium",
+        dateStyle: "short"
+    });
+    if (this.updatedAt.toString() === this.createdAt.toString()) {
+        return "Created: " + o.format(this.updatedAt)
+    } else {
+        return "Last Modified: " + o.format(this.updatedAt)
+    }
 })
 
 PostSchema.post('findOneAndDelete', async function (doc) {
