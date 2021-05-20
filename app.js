@@ -22,6 +22,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const MongoStore = require('connect-mongo');
 
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/myblog';
+// const dbUrl = 'mongodb://localhost:27017/myblog';
 
 mongoose.connect(dbUrl, {
     useNewUrlParser: true,
@@ -57,8 +58,9 @@ store.on("error", function (e) {
 })
 
 const sessionConfig = {
+    store,
     name: 'session',
-    secret: 'thisshouldbesomethingelse',
+    secret: secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
